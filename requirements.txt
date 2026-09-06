@@ -3,3 +3,8 @@ uvicorn>=0.34.0
 pydantic>=2.0.0
 pandas>=2.0.0
 ucimlrepo>=0.0.7
+scikit-learn
+matplotlib
+seaborn
+numpy
+category_encoders

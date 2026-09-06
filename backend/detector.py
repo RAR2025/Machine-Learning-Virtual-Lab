@@ -102,6 +102,19 @@ def analyze_code(code):
 
         target_name = y.columns[0] if isinstance(y, pd.DataFrame) else "Unknown"
 
+        if result["problem_type"] == "Classification":
+            appropriate_models = [
+                "LogisticRegression"
+            ]
+        elif result["problem_type"] == "Regression":
+            appropriate_models = [
+                "LinearRegression"
+            ]
+        else:
+            appropriate_models = []
+
+        models_str = "\n".join(f"  - {m}" for m in appropriate_models)
+
         output = f"""
 Dataset ID: {dataset_id}
 
@@ -116,6 +129,15 @@ Detected Problem Type:
 
 Reason:
 {result["reason"]}
+
+Appropriate Models:
+{models_str}
+
+X.head():
+{X.head().to_string()}
+
+y.head():
+{y.head().to_string()}
 """
 
         return output
