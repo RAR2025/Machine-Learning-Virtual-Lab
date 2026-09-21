@@ -26,6 +26,7 @@ def detect_problem_type(y):
 
     if (
         is_object_dtype(y_clean)
+        or pd.api.types.is_string_dtype(y_clean)
         or isinstance(y_clean.dtype, pd.CategoricalDtype)
         or pd.api.types.is_bool_dtype(y_clean)
     ):

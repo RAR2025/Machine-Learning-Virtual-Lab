@@ -5,8 +5,8 @@ from sklearn.metrics import (
     mean_absolute_error,
     r2_score,
 )
-from backend import state
-from backend.models import resolve_model
+from backend.core import state
+from backend.services.modeling.registry import resolve_model
 
 
 def evaluate_model(model=None, X_train=None, X_test=None, y_train=None, y_test=None, encoding_name="Model"):
@@ -19,9 +19,12 @@ def evaluate_model(model=None, X_train=None, X_test=None, y_train=None, y_test=N
     y_pred = model.predict(X_test)
 
     mse = mean_squared_error(y_test, y_pred)
-    rmse = np.sqrt(mse)
+    rmse = float(np.sqrt(mse))
     mae = mean_absolute_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
+    try:
+        r2 = r2_score(y_test, y_pred)
+    except Exception:
+        r2 = float("nan")
 
     print("\n" + "=" * 60)
     print(f"{encoding_name}")

@@ -1,0 +1,374 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #f4f6fb;
+    color: #1f2933;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+header {
+    background: linear-gradient(135deg, #1f3a93, #3b82f6);
+    color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+header p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+}
+
+section {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+section h2 {
+    margin-top: 0;
+    color: #1f3a93;
+    border-bottom: 2px solid #eef2f7;
+    padding-bottom: 10px;
+}
+
+h3 {
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+code {
+    background: #eef2f7;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-family: "Cascadia Code", Consolas, monospace;
+    font-size: 0.95rem;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+button {
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    margin-top: 12px;
+}
+
+button:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+button:disabled {
+    background: #a5c4f9;
+    cursor: not-allowed;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 0.9rem;
+}
+
+th,
+td {
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+th {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #334155;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.theory {
+    background: #f8fafc;
+    border-left: 4px solid #3b82f6;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 16px;
+}
+
+.theory p {
+    margin: 8px 0;
+}
+
+.theory ul {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.theory li {
+    margin: 4px 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #64748b;
+}
+
+.card p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.result {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 16px;
+}
+
+.result h3 {
+    color: #15803d;
+}
+
+.result p {
+    margin: 6px 0;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.metric {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+
+.metric .label {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.metric .value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1f3a93;
+    margin-top: 4px;
+}
+
+.error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+}
+
+.muted {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.note {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.note p {
+    margin: 4px 0;
+}
+
+.encoding-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.encoding-buttons button {
+    margin-top: 0;
+}
+
+.step-list li {
+    margin: 6px 0;
+}
+
+select, input[type='number'] {
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+}
+
+details.card summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+details {
+    margin-bottom: 12px;
+}
+
+h4 {
+    color: #1f3a93;
+    margin: 14px 0 8px;
+}
+
+.link-button {
+    display: inline-block;
+    background: #3b82f6;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 12px;
+    margin-right: 8px;
+}
+
+.link-button:hover {
+    background: #1d4ed8;
+    color: #ffffff;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.stat {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 0;
+}
+
+.stat span {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 2px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 0.95rem;
+    color: #1f2933;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stat em {
+    display: block;
+    font-style: normal;
+    font-size: 0.78rem;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+details {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: #fbfdff;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #1f3a93;
+    font-size: 0.92rem;
+}
+
+table.dense th,
+table.dense td {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+    main { padding: 16px 12px 40px; }
+    header h1 { font-size: 1.6rem; }
+}
+
+@media print {
+    header { padding: 20px; }
+    section { break-inside: avoid; box-shadow: none; }
+    button { display: none; }
+}
