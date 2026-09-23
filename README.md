@@ -57,8 +57,6 @@ Machine-Learning-Virtual-Lab/
 
 ## Running
 
-### 1. Start the backend
-
 ```bash
 python -m uvicorn backend.main:app --reload --port 8000
 ```
