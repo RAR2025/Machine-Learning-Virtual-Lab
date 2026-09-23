@@ -54,21 +54,6 @@ Machine-Learning-Virtual-Lab/
 | ML / Data | Pandas, NumPy, scikit-learn, category_encoders |
 | Dataset source | UCI Machine Learning Repository (`ucimlrepo`) |
 
-## Setup
-
-### Backend
-
-```bash
-cd backend
-uvicorn main:app
-```
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-```
 
 ## Running
 
@@ -78,16 +63,19 @@ npm install
 python -m uvicorn backend.main:app --reload --port 8000
 ```
 
-API server starts at `http://localhost:8000`
+### Backend
+```bash
+cd backend
+uvicorn main:app --reload
+```
 
-### 2. Start the frontend (in a second terminal)
+### Frontend
 
 ```bash
 cd frontend
+npm install
 npm run dev
 ```
-
-Web app opens at `http://localhost:5173`. The Vite dev server proxies `/api` requests to the backend on port `8000`.
 
 ## Usage
 
