@@ -59,7 +59,8 @@ Machine-Learning-Virtual-Lab/
 ### Backend
 
 ```bash
-pip install -r requirements.txt
+cd backend
+uvicorn main:app
 ```
 
 ### Frontend
