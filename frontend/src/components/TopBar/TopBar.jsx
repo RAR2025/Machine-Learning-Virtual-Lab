@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './TopBar.css';
 import { ALGORITHMS } from '../../data/algorithms';
+import GuideModal from './GuideModal';
 
 export default function TopBar({
   activeAlgo,
@@ -140,37 +141,11 @@ export default function TopBar({
         </div>
       </header>
 
-      {/* Info Concept Modal */}
-      {showInfoModal && (
-        <div className="modal-backdrop" onClick={() => setShowInfoModal(false)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <div className="modal-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--algo-svm)" strokeWidth="2">
-                  <path d="M12 2a9 9 0 0 1 9 9c0 3.1-1.5 5.8-3.9 7.4l-.1.1v2.5a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-2.5l-.1-.1A9 9 0 0 1 12 2z"></path>
-                  <path d="M9 22h6"></path>
-                </svg>
-                <span>Virtual Lab Concept & Theory</span>
-              </div>
-              <button className="modal-close-btn" onClick={() => setShowInfoModal(false)}>✕</button>
-            </div>
-            <div className="modal-body">
-              <p>
-                <b>Decision Boundaries</b> represent the geometric partition where the predicted class probability crosses the 50% threshold.
-              </p>
-              <p>
-                • <b>K-Nearest Neighbors (KNN):</b> Instance-based non-parametric classifier. Low $K$ creates Voronoi cells tightly wrapped around single points (high variance). Higher $K$ aggregates broader neighborhoods, producing smoother curves (high bias).
-              </p>
-              <p>
-                • <b>Support Vector Machine (SVM):</b> Maximizes geometric margin between classes. The <b>RBF Kernel</b> maps points to higher dimensions to resolve non-linear distributions like concentric circles.
-              </p>
-              <p>
-                • <b>Decision Tree:</b> Recursively cuts feature space into axis-parallel orthogonal boxes. Notice the 90° horizontal/vertical step boundaries.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Info / Guide Walkthrough Modal */}
+      <GuideModal
+        isOpen={showInfoModal}
+        onClose={() => setShowInfoModal(false)}
+      />
     </>
   );
 }

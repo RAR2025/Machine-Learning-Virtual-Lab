@@ -1,0 +1,357 @@
+/* =====================================================================
+   VIRTUAL LAB USER GUIDE & WALKTHROUGH MODAL
+   Clean High-Contrast | Wide Format | Step-by-Step Tabs
+   ===================================================================== */
+
+.guide-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.guide-modal-container {
+  width: 760px;
+  max-width: 95vw;
+  max-height: 88vh;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.2), 0 0 0 1px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Header */
+.guide-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FCFDFE;
+}
+
+.guide-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.guide-header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+}
+
+.guide-header-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.guide-header-desc {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.guide-close-btn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.guide-close-btn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+/* Navigation Tabs */
+.guide-tabs-bar {
+  display: flex;
+  background: var(--bg-surface-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 16px;
+  gap: 6px;
+}
+
+.guide-tab-item {
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.guide-tab-item:hover {
+  color: var(--text-primary);
+}
+
+.guide-tab-item.active {
+  color: var(--text-primary);
+  border-bottom-color: #0F172A;
+}
+
+/* Body */
+.guide-modal-body {
+  flex: 1;
+  padding: 18px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.guide-modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+.guide-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+
+/* Step Cards */
+.guide-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.step-card {
+  display: flex;
+  gap: 14px;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.step-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0F172A;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  padding: 3px 8px;
+  border-radius: 6px;
+  height: fit-content;
+  white-space: nowrap;
+}
+
+.step-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.step-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.step-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.step-bullets {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.step-bullets b {
+  color: var(--text-primary);
+}
+
+.step-subgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.subgrid-card {
+  padding: 8px 10px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-mini-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.knn-tag { background: #E0F2FE; color: #0284C7; }
+.svm-tag { background: #F3E8FF; color: #7C3AED; }
+.dt-tag { background: #FFEDD5; color: #EA580C; }
+
+.subgrid-card p {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* Algorithm Deep Dive Tab */
+.guide-algo-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.algo-deep-dive {
+  padding: 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dive-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dive-pill {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.knn-pill { background: #E0F2FE; color: #0369A1; }
+.svm-pill { background: #F3E8FF; color: #6D28D9; }
+.dt-pill { background: #FFEDD5; color: #C2410C; }
+
+.dive-type {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.dive-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.dive-insight {
+  padding: 8px 10px;
+  background: var(--bg-surface-subtle);
+  border-left: 3px solid var(--text-primary);
+  border-radius: 0 4px 4px 0;
+  font-size: 11.5px;
+  color: var(--text-primary);
+}
+
+/* Shortcuts Tab */
+.guide-shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.shortcut-card {
+  padding: 12px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shortcut-key {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  background: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  padding: 2px 8px;
+  border-radius: 4px;
+  width: fit-content;
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.shortcut-info {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.shortcut-info b {
+  color: var(--text-primary);
+}
+
+/* Footer */
+.guide-modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F8FAFC;
+}
+
+.footer-tip {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  max-width: 500px;
+}
+
+.footer-tip b {
+  color: var(--text-primary);
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
