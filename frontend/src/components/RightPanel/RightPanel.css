@@ -1,0 +1,191 @@
+.metric-card {
+  padding: 12px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.metric-tag {
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Accuracy */
+.accuracy-display {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accuracy-number {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.accuracy-progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--border-medium);
+  overflow: hidden;
+}
+
+.accuracy-fill {
+  height: 100%;
+  background: var(--color-accent-gradient);
+  border-radius: 4px;
+  transition: width 0.4s ease-out;
+}
+
+/* Sub-metrics */
+.sub-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.sub-metric-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 6px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sub-metric-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.sub-metric-val {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Confusion Matrix */
+.cm-table {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.cm-row {
+  display: contents;
+}
+
+.cm-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.col-label, .row-label {
+  font-family: var(--font-main);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.val-cell {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.val-cell.true-positive {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  color: var(--color-primary);
+}
+
+.val-cell.true-negative {
+  background: #FFF7ED;
+  border-color: #FED7AA;
+  color: #EA580C;
+}
+
+.cm-empty {
+  padding: 18px 10px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-medium);
+  border-radius: 6px;
+  background: #FFFFFF;
+}
+
+/* Bias Variance */
+.bias-variance-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bv-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.bv-scale small {
+  font-size: 8.5px;
+}
+
+.bv-label-left { text-align: left; }
+.bv-label-center { text-align: center; align-self: center; }
+.bv-label-right { text-align: right; }
+
+.bv-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #93C5FD, #10B981 50%, #FCA5A5);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.bv-indicator {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--text-primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transform: translate(-50%, -50%);
+  transition: left 0.3s ease;
+}
