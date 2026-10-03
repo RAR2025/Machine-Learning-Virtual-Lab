@@ -1,0 +1,106 @@
+Module  
+1  
+2  
+3  
+Content  
+Data Preparation, Leakage Prevention and Data-Centric ML 
+1.1  
+1.2  
+1.3  
+Overview  of  machine  learning:  definitions,  types.  Machine  learning 
+pipeline:  data  preprocessing,  feature  engineering,  model  training,  and 
+evaluation. Importance of clean and reliable datasets 
+Training,Test  and  Validation  set,  cross  validation,  k-  fold  cross 
+validation,  Overfitting  and  Underfitting  of  model,  bias-variance  trade 
+off, 
+Performance  Metrics:  Classification  (Confusion  Matrix,  Accuracy, 
+Precision,  Recall,  F1-score,  ROC-AUC),  Regression  (MSE,  MAE, 
+RMSE, R2 Score). 
+Definition  and  causes  of  data  leakage,  Consequences  of  leakage  on 
+model performance 
+Types of leakage: 
+●  Train–test contamination 
+●  Target leakage 
+●  Data preprocessing leakage 
+Dimensionality Reduction 
+2.1  
+Curse  of  Dimensionality,  Feature  Selection  and  Feature  Extraction 
+Feature Reduction 
+●  Curse of Dimensionality 
+●  PCA 
+●  SVD 
+●  LDA 
+2.2  
+Dimensionality  Reduction  Techniques:  SVD,  Principal  Component 
+Analysis,  application  in  autoencoders,  Linear  Discriminant  Analysis, 
+Nonlinear Visualization 
+●  t-SNE 
+●  UMAP 
+Probabilistic Latent Models 
+●  GMM 
+●  EM Algorithm 
+Supervised Learning: Regression and Classification 
+3.1  
+Linear Models 
+Finding  best  fit  line,  Gradient  Descent  Algorithm:  Learning 
+Algorithm,  First  order  derivatives,  Linear  regression  using  gradient 
+descent,  Learning  rate,  Logistic  Regression,  Need  of  Regularization, 
+L1  and  L2  Regularization,  Comparison  and  its  implementation.  Hard 
+and  Soft  margin  in  SVM,  Hinge  Loss  function  of  SVM,  Kernel  SVM 
+and its type. K-nearest neighbour 
+3.2  
+Data Mining Algorithms : Classification 
+Basic Concepts, Decision Tree Induction - ID3, Naive Bayesian 
+Classification,  CART,  Accuracy  and  Error  measures,  Evaluating  the 
+Accuracy  of  a  Classifier:  Holdout  &  Random  Subsampling  and 
+Bootstrap. 
+CO  Hours 
+CO1  05 
+CO2  05 
+CO3  09 
+CO4  07 
+4  
+Unsupervised Learning : Clustering  
+62 
+4.1  
+4.2  
+4.3  
+5  
+Data  Mining  Algorithms:  Clustering:  Types  of  data  in  Cluster  analysis, 
+Partitioning  Methods  (k-Means,  k-Medoids),  Hierarchical  Methods 
+(Agglomerative, Divisive) 
+Clustering  types:  Graph-based,:  Minimum  Spanning  Tree  (MST) 
+Clustering,  
+Model-based:  
+Expectation-Maximization  
+(EM), 
+Density-based:  DBSCAN,  HDBSCAN,  An  example  of  clustering  on 
+text embeddings. 
+Basics  of  Clustering  Evaluation:  Silhouette  Score,  Davies-Bouldin 
+Index,  Adjusted Rand Index (ARI) 
+Ensemble Learning 
+5.1  
+5.2  
+Concepts  of  Ensemble  Learning,  Advantages  and  challenges, 
+Bias-Variance  trade-off in ensembles 
+Basics  of  Bagging  and  Boosting,  Random  Forest  algorithm, 
+AdaBoost,  Gradient  Boosting,  XGBoost  overview  and  comparison, 
+LightGBM  and  CatBoost,  
+Stacking:  layered  models  and 
+meta-learners, Voting Classifier: hard vs. soft voting 
+CO5  05 
+63 
+6  
+MLOps & Deployment 
+6.1  Introduction  to  MLOps,Overview  of  MLOps  and  its  significance,  Key 
+challenges  in  deploying  and  managing  ML  models  in  production, 
+Comparison  of  traditional  software  development,  DevOps  and  MLOps, 
+Key  components  of  MLOps,  MLOps  workflow,  Landscape  of  MLOps 
+tools and technologies 
+6.2  
+Textbooks: 
+ML  Pipelines  &  Data  Management:  Overview  of  data  engineering  tools 
+and  practices,  Data  management  for  ML  models,  ML  pipeline 
+automation,  Use  of  version  control  systems  like  Git  for  model 
+development,  Model  Monitoring,  Drift  Detection  and  Continuous 
+Retraining 
