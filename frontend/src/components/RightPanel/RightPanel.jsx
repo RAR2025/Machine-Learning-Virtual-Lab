@@ -1,131 +1,145 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './RightPanel.css';
 
 export default function RightPanel({
   metrics,
   isTraining,
-  activeAlgo
+  activeAlgo,
+  collapsed,
+  onToggleCollapse
 }) {
+  const [tooltip, setTooltip] = useState(null);
   const hasMetrics = Boolean(metrics);
+
+  if (collapsed) return null;
 
   return (
     <aside className="vlab-panel vlab-panel-right">
       <div className="panel-header">
         <div className="panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-          </svg>
-          <span>Live Metrics & Evaluation</span>
+          <span>Live Metrics</span>
         </div>
-        <span className="badge badge-subtle">
-          <span className={`badge-dot ${hasMetrics ? 'live' : ''}`}></span>
-          {hasMetrics ? 'Evaluated' : 'Awaiting Fit'}
-        </span>
+        <button
+          className="panel-collapse-trigger"
+          onClick={onToggleCollapse}
+          title="Collapse Metrics (Right Panel)"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
 
       <div className="panel-content">
-        {/* 1. Accuracy Radial / Score Card */}
-        <div className="metric-card">
-          <div className="metric-header">
-            <span className="metric-name">Classification Accuracy</span>
-            <span className="metric-tag">Training Set</span>
+        {/* 1. Accuracy Big Metric */}
+        <div className="clean-metric-card">
+          <div className="card-top-row">
+            <span className="card-label">Accuracy</span>
+            <span className="card-badge">Train</span>
           </div>
-          <div className="accuracy-display">
-            <div className="accuracy-number">
+          <div className="accuracy-val-row">
+            <span className="accuracy-big-val">
               {hasMetrics ? `${(metrics.accuracy * 100).toFixed(1)}%` : '—'}
-            </div>
-            <div className="accuracy-progress-bar">
-              <div 
-                className="accuracy-fill" 
-                style={{ width: hasMetrics ? `${metrics.accuracy * 100}%` : '0%' }}
-              ></div>
-            </div>
+            </span>
+          </div>
+          <div className="mini-progress-track">
+            <div
+              className="mini-progress-fill"
+              style={{ width: hasMetrics ? `${metrics.accuracy * 100}%` : '0%' }}
+            ></div>
           </div>
         </div>
 
-        {/* 2. Secondary Metrics (Precision, Recall, F1) */}
-        <div className="metric-card">
-          <div className="metric-header">
-            <span className="metric-name">Classification Report</span>
+        {/* 2. Precision / Recall / F1 */}
+        <div className="metrics-triad">
+          <div className="triad-item">
+            <span className="triad-label">Precision</span>
+            <span className="triad-val">{hasMetrics ? (metrics.precision ?? 0).toFixed(2) : '—'}</span>
           </div>
-          <div className="sub-metrics-grid">
-            <div className="sub-metric-box">
-              <span className="sub-metric-label">Precision</span>
-              <span className="sub-metric-val">
-                {hasMetrics ? (metrics.precision ?? 0).toFixed(2) : '—'}
-              </span>
-            </div>
-            <div className="sub-metric-box">
-              <span className="sub-metric-label">Recall</span>
-              <span className="sub-metric-val">
-                {hasMetrics ? (metrics.recall ?? 0).toFixed(2) : '—'}
-              </span>
-            </div>
-            <div className="sub-metric-box">
-              <span className="sub-metric-label">F1 Score</span>
-              <span className="sub-metric-val">
-                {hasMetrics ? (metrics.f1 ?? 0).toFixed(2) : '—'}
-              </span>
-            </div>
+          <div className="triad-item">
+            <span className="triad-label">Recall</span>
+            <span className="triad-val">{hasMetrics ? (metrics.recall ?? 0).toFixed(2) : '—'}</span>
+          </div>
+          <div className="triad-item">
+            <span className="triad-label">F1-Score</span>
+            <span className="triad-val">{hasMetrics ? (metrics.f1 ?? 0).toFixed(2) : '—'}</span>
           </div>
         </div>
 
-        {/* 3. Confusion Matrix Slot */}
-        <div className="metric-card">
-          <div className="metric-header">
-            <span className="metric-name">Confusion Matrix</span>
+        {/* 3. Confusion Matrix */}
+        <div className="clean-metric-card">
+          <div className="card-top-row">
+            <div className="title-with-info">
+              <span className="card-label">Confusion Matrix</span>
+              <button
+                type="button"
+                className="info-bubble-btn"
+                onMouseEnter={() => setTooltip('cm')}
+                onMouseLeave={() => setTooltip(null)}
+                title="Confusion Matrix details"
+              >
+                i
+              </button>
+            </div>
+            {tooltip === 'cm' && (
+              <div className="control-floating-tooltip">
+                Diagonal cells represent correctly classified points (True Positives & True Negatives).
+              </div>
+            )}
           </div>
+
           {hasMetrics && metrics.confusionMatrix ? (
-            <div className="cm-table">
-              <div className="cm-row cm-header-row">
-                <span className="cm-cell empty-cell"></span>
-                <span className="cm-cell col-label">Pred A</span>
-                <span className="cm-cell col-label">Pred B</span>
-              </div>
-              <div className="cm-row">
-                <span className="cm-cell row-label">True A</span>
-                <span className="cm-cell val-cell true-positive">
-                  {metrics.confusionMatrix[0]?.[0] ?? 0}
-                </span>
-                <span className="cm-cell val-cell false-negative">
-                  {metrics.confusionMatrix[0]?.[1] ?? 0}
-                </span>
-              </div>
-              <div className="cm-row">
-                <span className="cm-cell row-label">True B</span>
-                <span className="cm-cell val-cell false-positive">
-                  {metrics.confusionMatrix[1]?.[0] ?? 0}
-                </span>
-                <span className="cm-cell val-cell true-negative">
-                  {metrics.confusionMatrix[1]?.[1] ?? 0}
-                </span>
-              </div>
+            <div className="compact-cm">
+              <div className="cm-header-lbl"></div>
+              <div className="cm-header-lbl">Pred A</div>
+              <div className="cm-header-lbl">Pred B</div>
+
+              <div className="cm-row-lbl">True A</div>
+              <div className="cm-cell hit">{metrics.confusionMatrix[0]?.[0] ?? 0}</div>
+              <div className="cm-cell miss">{metrics.confusionMatrix[0]?.[1] ?? 0}</div>
+
+              <div className="cm-row-lbl">True B</div>
+              <div className="cm-cell miss">{metrics.confusionMatrix[1]?.[0] ?? 0}</div>
+              <div className="cm-cell hit">{metrics.confusionMatrix[1]?.[1] ?? 0}</div>
             </div>
           ) : (
-            <div className="cm-empty">
-              <span>Matrix generates upon model training</span>
-            </div>
+            <div className="cm-placeholder">Ready to evaluate</div>
           )}
         </div>
 
-        {/* 4. Bias-Variance Tradeoff Meter */}
-        <div className="metric-card">
-          <div className="metric-header">
-            <span className="metric-name">Bias-Variance Estimator</span>
-            <span className="metric-tag">{activeAlgo.toUpperCase()}</span>
-          </div>
-          <div className="bias-variance-meter">
-            <div className="bv-scale">
-              <span className="bv-label-left">High Bias<br/><small>(Underfitting)</small></span>
-              <span className="bv-label-center">Optimal Balance</span>
-              <span className="bv-label-right">High Variance<br/><small>(Overfitting)</small></span>
+        {/* 4. Bias-Variance Estimator */}
+        <div className="clean-metric-card">
+          <div className="card-top-row">
+            <div className="title-with-info">
+              <span className="card-label">Bias-Variance</span>
+              <button
+                type="button"
+                className="info-bubble-btn"
+                onMouseEnter={() => setTooltip('bv')}
+                onMouseLeave={() => setTooltip(null)}
+                title="Bias-Variance Tradeoff details"
+              >
+                i
+              </button>
             </div>
-            <div className="bv-track">
-              <div 
-                className="bv-indicator"
+            {tooltip === 'bv' && (
+              <div className="control-floating-tooltip">
+                Indicates model complexity tradeoff: High Bias (underfitting) vs High Variance (overfitting).
+              </div>
+            )}
+          </div>
+
+          <div className="bv-container">
+            <div className="bv-line-labels">
+              <span>Bias (Underfit)</span>
+              <span>Variance (Overfit)</span>
+            </div>
+            <div className="bv-track-bar">
+              <div
+                className="bv-pin"
                 style={{
-                  left: hasMetrics && metrics.varianceScore !== undefined 
-                    ? `${Math.min(95, Math.max(5, metrics.varianceScore * 100))}%` 
+                  left: hasMetrics && metrics.varianceScore !== undefined
+                    ? `${Math.min(95, Math.max(5, metrics.varianceScore * 100))}%`
                     : '50%'
                 }}
               ></div>

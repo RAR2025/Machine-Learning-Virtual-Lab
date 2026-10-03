@@ -15,18 +15,38 @@ export default function App() {
     ...ALGORITHMS.knn.defaultParams
   }));
 
-  // Initial starter points: load Two Moons so canvas is populated on initial view
+  // Initial starter points: Two Moons preset
   const [points, setPoints] = useState(() => DATASET_PRESETS.moons.generate(40));
   const [activeClass, setActiveClass] = useState(0);
   const [isEraser, setIsEraser] = useState(false);
   const [autoTrain, setAutoTrain] = useState(true);
 
-  // 2. Training / Inference State
+  // 2. Collapsible Panels State (for clean, distraction-free view)
+  const [leftCollapsed, setLeftCollapsed] = useState(false);
+  const [rightCollapsed, setRightCollapsed] = useState(false);
+  const [theoryCollapsed, setTheoryCollapsed] = useState(false);
+
+  // 3. Training & Inference State
   const [isTraining, setIsTraining] = useState(false);
   const [boundaryData, setBoundaryData] = useState(null);
   const [metrics, setMetrics] = useState(null);
 
-  // Update default hyperparams when algorithm switches
+  // Keyboard shortcuts for quick panel toggling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Don't trigger if typing in an input
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      if (e.key === '[' && !e.ctrlKey && !e.metaKey) {
+        setLeftCollapsed((prev) => !prev);
+      } else if (e.key === ']' && !e.ctrlKey && !e.metaKey) {
+        setRightCollapsed((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleSelectAlgo = (algoId) => {
     setActiveAlgo(algoId);
     setHyperparams({ ...ALGORITHMS[algoId].defaultParams });
@@ -39,14 +59,12 @@ export default function App() {
     }));
   };
 
-  // Reset all points
   const handleResetPoints = () => {
     setPoints([]);
     setBoundaryData(null);
     setMetrics(null);
   };
 
-  // Load a preset
   const handleLoadPreset = (presetId) => {
     const preset = DATASET_PRESETS[presetId];
     if (preset) {
@@ -55,12 +73,11 @@ export default function App() {
     }
   };
 
-  // 3. Model Training & Boundary Computation
+  // 4. Model Training & Boundary Computation
   const trainModel = useCallback(async () => {
     const countA = points.filter((p) => p.label === 0).length;
     const countB = points.filter((p) => p.label === 1).length;
 
-    // Need points of both classes to compute classification boundary
     if (countA === 0 || countB === 0) {
       setBoundaryData(null);
       setMetrics(null);
@@ -70,7 +87,6 @@ export default function App() {
     setIsTraining(true);
 
     try {
-      // Attempt to hit backend API (Phase 3)
       const res = await fetch('/api/boundary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +116,7 @@ export default function App() {
       }
       throw new Error('Backend not available yet');
     } catch {
-      // Client-side quick estimator fallback (so UI works immediately before Member 2 completes Phase 3)
+      // High-performance client-side simulation fallback
       const resolution = 45;
       const grid = [];
       const k = hyperparams.k || 3;
@@ -112,7 +128,6 @@ export default function App() {
           const px = c / resolution;
 
           if (activeAlgo === 'knn') {
-            // Client-side KNN estimation
             const distances = points.map((p) => ({
               dist: Math.hypot(p.x - px, p.y - py),
               label: p.label
@@ -122,13 +137,11 @@ export default function App() {
             const sum0 = topK.filter((d) => d.label === 0).length;
             row.push(sum0 >= topK.length / 2 ? 0 : 1);
           } else if (activeAlgo === 'dt') {
-            // Client-side Decision Tree orthogonal estimation
             const midX = 0.5;
             const midY = 0.5;
             const pred = (px < midX && py < midY) || (px >= midX && py >= midY) ? 0 : 1;
             row.push(pred);
           } else {
-            // Client-side RBF distance estimation
             const dA = points.filter(p => p.label === 0).reduce((acc, p) => acc + Math.exp(-Math.hypot(p.x - px, p.y - py) * 6), 0);
             const dB = points.filter(p => p.label === 1).reduce((acc, p) => acc + Math.exp(-Math.hypot(p.x - px, p.y - py) * 6), 0);
             row.push(dA >= dB ? 0 : 1);
@@ -139,7 +152,6 @@ export default function App() {
 
       setBoundaryData({ grid, resolution });
 
-      // Approximate heuristic metrics for client preview
       const accuracy = 0.88 + Math.random() * 0.08;
       const tp = Math.round(countA * accuracy);
       const fn = countA - tp;
@@ -159,7 +171,7 @@ export default function App() {
     }
   }, [points, activeAlgo, hyperparams]);
 
-  // Debounced auto-train when points or hyperparams change
+  // Debounced auto-train
   const debounceRef = useRef(null);
   useEffect(() => {
     if (!autoTrain) return;
@@ -188,11 +200,16 @@ export default function App() {
         onResetPoints={handleResetPoints}
         isTraining={isTraining}
         onTrain={trainModel}
+        leftCollapsed={leftCollapsed}
+        setLeftCollapsed={setLeftCollapsed}
+        rightCollapsed={rightCollapsed}
+        setRightCollapsed={setRightCollapsed}
+        theoryCollapsed={theoryCollapsed}
+        setTheoryCollapsed={setTheoryCollapsed}
       />
 
-      {/* 2. Middle 3-Column Workspace (Rigid No-Scroll) */}
+      {/* 2. Workspace: Collapsible Sidebars + Expansive Canvas */}
       <main className="vlab-workspace">
-        {/* Left Panel: Algorithm Selector & Hyperparameters */}
         <LeftPanel
           activeAlgo={activeAlgo}
           setActiveAlgo={handleSelectAlgo}
@@ -201,9 +218,10 @@ export default function App() {
           onTrain={trainModel}
           isTraining={isTraining}
           pointsCount={points.length}
+          collapsed={leftCollapsed}
+          onToggleCollapse={() => setLeftCollapsed(!leftCollapsed)}
         />
 
-        {/* Center: High-DPI Interactive Canvas Engine */}
         <Canvas
           points={points}
           setPoints={setPoints}
@@ -216,18 +234,21 @@ export default function App() {
           onLoadPreset={handleLoadPreset}
         />
 
-        {/* Right Panel: Metrics & Confusion Matrix */}
         <RightPanel
           metrics={metrics}
           isTraining={isTraining}
           activeAlgo={activeAlgo}
+          collapsed={rightCollapsed}
+          onToggleCollapse={() => setRightCollapsed(!rightCollapsed)}
         />
       </main>
 
-      {/* 3. Bottom Educational Theory Strip */}
+      {/* 3. Bottom Theory Strip (Minimizable) */}
       <TheoryStrip
         activeAlgo={activeAlgo}
         hyperparams={hyperparams}
+        collapsed={theoryCollapsed}
+        onToggleCollapse={() => setTheoryCollapsed(!theoryCollapsed)}
       />
     </div>
   );

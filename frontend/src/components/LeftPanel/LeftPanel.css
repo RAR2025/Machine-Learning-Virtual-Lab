@@ -1,10 +1,16 @@
-.section-block {
+.panel-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.section-subtitle {
+.section-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-label {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -12,160 +18,221 @@
   color: var(--text-muted);
 }
 
-/* Algo Selector Cards */
-.algo-selector-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.algo-card {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  padding: 10px 12px;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  outline: none;
-}
-
-.algo-card:hover {
-  background: var(--bg-surface-subtle);
-  border-color: var(--border-medium);
-  transform: translateY(-1px);
-}
-
-.algo-card.selected {
-  background: var(--card-bg);
-  border-color: var(--card-border);
-  box-shadow: 0 0 0 1.5px var(--card-theme);
-}
-
-.algo-card-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
-}
-
-.algo-card-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: #FFFFFF;
+.panel-collapse-trigger {
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--card-theme);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--shadow-sm);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 4px;
 }
-
-.algo-card-heading {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.algo-card-title {
-  font-size: 13px;
-  font-weight: 600;
+.panel-collapse-trigger:hover {
+  background: var(--bg-surface-hover);
   color: var(--text-primary);
 }
 
-.algo-card-badge {
-  font-size: 9.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.04);
-  color: var(--card-theme);
-}
-
-.algo-card-summary {
-  font-size: 11px;
-  color: var(--text-secondary);
-  line-height: 1.35;
-}
-
-/* Hyperparameters Stack */
-.hyperparam-section {
+/* Algo Segmented Tabs */
+.algo-segmented-control {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
 }
 
+.algo-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 4px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.algo-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.algo-tab-btn.active {
+  background: #FFFFFF;
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.algo-tab-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--tab-accent);
+}
+
+/* Controls Stack */
 .controls-stack {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.control-card {
-  padding: 10px 12px;
+.control-row-card {
+  padding: 8px 10px;
   background: var(--bg-surface-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  position: relative;
 }
 
-.slider-wrapper {
+.control-header-line {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.slider-limits {
-  display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
 }
 
-.control-desc {
-  font-size: 10.5px;
-  color: var(--text-muted);
-  line-height: 1.3;
-}
-
-/* Formula Box */
-.formula-box {
-  padding: 8px 12px;
-  background: #F8FAFC;
-  border: 1px dashed var(--border-medium);
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-primary);
-  text-align: center;
-  overflow-x: auto;
-}
-
-/* Footer / Fit Button */
-.left-panel-footer {
-  margin-top: auto;
-  padding-top: 10px;
+.label-with-info {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 
-.btn-full {
-  width: 100%;
-  padding: 10px 14px;
+.control-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.footer-warning {
-  font-size: 11px;
+.info-bubble-btn {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: #FFFFFF;
   color: var(--text-muted);
+  font-size: 9.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.info-bubble-btn:hover {
+  background: #0F172A;
+  color: #FFFFFF;
+  border-color: #0F172A;
+}
+
+.control-value-chip {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: #FFFFFF;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Floating Tooltip */
+.control-floating-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: #0F172A;
+  color: #F8FAFC;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 8px 10px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-md);
+  margin-top: 4px;
+  pointer-events: none;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.slider-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.slider-bounds {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-dim);
+}
+
+.clean-select {
+  font-family: var(--font-main);
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Formula Drawer */
+.formula-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px dashed var(--border-subtle);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.formula-toggle-btn:hover {
+  background: var(--bg-surface-subtle);
+  color: var(--text-primary);
+}
+
+.formula-drawer {
+  padding: 8px;
+  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
   text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.panel-bottom-action {
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.btn-block {
+  width: 100%;
 }

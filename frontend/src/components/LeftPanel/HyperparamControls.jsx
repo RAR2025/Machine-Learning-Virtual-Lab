@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ALGORITHMS } from '../../data/algorithms';
 import './LeftPanel.css';
 
@@ -8,27 +8,42 @@ export default function HyperparamControls({
   onChangeParam
 }) {
   const algo = ALGORITHMS[activeAlgo];
+  const [activeTooltip, setActiveTooltip] = useState(null);
 
   if (!algo || !algo.controls) return null;
 
   return (
-    <div className="hyperparam-section">
-      <div className="section-subtitle">Hyperparameter Tuning</div>
-
+    <div className="hyperparam-container">
       <div className="controls-stack">
         {algo.controls.map((ctrl) => {
-          // Check conditional display (e.g. gamma only when kernel is rbf/poly)
           if (ctrl.showIf && !ctrl.showIf(hyperparams)) {
             return null;
           }
 
           const currentValue = hyperparams[ctrl.id] ?? algo.defaultParams[ctrl.id];
+          const hasTooltip = Boolean(ctrl.description);
+          const isTooltipOpen = activeTooltip === ctrl.id;
 
           return (
-            <div key={ctrl.id} className="control-card">
-              <div className="control-label-row">
-                <span className="control-label">{ctrl.label}</span>
-                <span className="control-val">
+            <div key={ctrl.id} className="control-row-card">
+              <div className="control-header-line">
+                <div className="label-with-info">
+                  <span className="control-title">{ctrl.label}</span>
+                  {hasTooltip && (
+                    <button
+                      type="button"
+                      className="info-bubble-btn"
+                      onClick={() => setActiveTooltip(isTooltipOpen ? null : ctrl.id)}
+                      onMouseEnter={() => setActiveTooltip(ctrl.id)}
+                      onMouseLeave={() => setActiveTooltip(null)}
+                      title="Learn what this hyperparameter does"
+                    >
+                      i
+                    </button>
+                  )}
+                </div>
+
+                <span className="control-value-chip">
                   {typeof currentValue === 'number'
                     ? Number.isInteger(currentValue)
                       ? currentValue
@@ -37,8 +52,16 @@ export default function HyperparamControls({
                 </span>
               </div>
 
+              {/* Minimal floating tooltip on hover/click */}
+              {isTooltipOpen && hasTooltip && (
+                <div className="control-floating-tooltip">
+                  {ctrl.description}
+                </div>
+              )}
+
+              {/* Slider Input */}
               {ctrl.type === 'slider' && (
-                <div className="slider-wrapper">
+                <div className="slider-box">
                   <input
                     type="range"
                     className="range-slider"
@@ -50,16 +73,17 @@ export default function HyperparamControls({
                       onChangeParam(ctrl.id, parseFloat(e.target.value))
                     }
                   />
-                  <div className="slider-limits">
+                  <div className="slider-bounds">
                     <span>{ctrl.min}</span>
                     <span>{ctrl.max}</span>
                   </div>
                 </div>
               )}
 
+              {/* Select Input */}
               {ctrl.type === 'select' && (
                 <select
-                  className="select-control"
+                  className="clean-select"
                   value={currentValue}
                   onChange={(e) => onChangeParam(ctrl.id, e.target.value)}
                 >
@@ -69,10 +93,6 @@ export default function HyperparamControls({
                     </option>
                   ))}
                 </select>
-              )}
-
-              {ctrl.description && (
-                <div className="control-desc">{ctrl.description}</div>
               )}
             </div>
           );
