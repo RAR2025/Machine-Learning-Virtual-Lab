@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
 import './RightPanel.css';
+import ConfusionMatrix from './ConfusionMatrix';
+import MetricsGauge from './MetricsGauge';
 
 export default function RightPanel({
   metrics,
   isTraining,
-  activeAlgo,
   collapsed,
   onToggleCollapse
 }) {
-  const [tooltip, setTooltip] = useState(null);
   const hasMetrics = Boolean(metrics);
+  const accuracy = hasMetrics ? metrics.accuracy : 0;
+  const varianceScore = hasMetrics ? Math.min(1, Math.max(0, metrics.varianceScore ?? 0.5)) : 0.5;
+  const biasVarianceLabel = varianceScore >= 0.65 ? 'High variance · Overfitting' : varianceScore <= 0.35 ? 'High bias · Underfitting' : 'Balanced complexity';
 
   if (collapsed) return null;
 
@@ -31,23 +33,13 @@ export default function RightPanel({
       </div>
 
       <div className="panel-content">
-        {/* 1. Accuracy Big Metric */}
+        {/* 1. Accuracy radial gauge */}
         <div className="clean-metric-card">
           <div className="card-top-row">
             <span className="card-label">Accuracy</span>
             <span className="card-badge">Train</span>
           </div>
-          <div className="accuracy-val-row">
-            <span className="accuracy-big-val">
-              {hasMetrics ? `${(metrics.accuracy * 100).toFixed(1)}%` : '—'}
-            </span>
-          </div>
-          <div className="mini-progress-track">
-            <div
-              className="mini-progress-fill"
-              style={{ width: hasMetrics ? `${metrics.accuracy * 100}%` : '0%' }}
-            ></div>
-          </div>
+          <MetricsGauge value={accuracy} isLoading={isTraining} />
         </div>
 
         {/* 2. Precision / Recall / F1 */}
@@ -68,40 +60,10 @@ export default function RightPanel({
 
         {/* 3. Confusion Matrix */}
         <div className="clean-metric-card">
-          <div className="card-top-row">
-            <div className="title-with-info">
-              <span className="card-label">Confusion Matrix</span>
-              <button
-                type="button"
-                className="info-bubble-btn"
-                onMouseEnter={() => setTooltip('cm')}
-                onMouseLeave={() => setTooltip(null)}
-                title="Confusion Matrix details"
-              >
-                i
-              </button>
-            </div>
-            {tooltip === 'cm' && (
-              <div className="control-floating-tooltip">
-                Diagonal cells represent correctly classified points (True Positives & True Negatives).
-              </div>
-            )}
-          </div>
+          <div className="card-top-row"><span className="card-label">Confusion Matrix</span><span className="card-hint">hover cells</span></div>
 
           {hasMetrics && metrics.confusionMatrix ? (
-            <div className="compact-cm">
-              <div className="cm-header-lbl"></div>
-              <div className="cm-header-lbl">Pred A</div>
-              <div className="cm-header-lbl">Pred B</div>
-
-              <div className="cm-row-lbl">True A</div>
-              <div className="cm-cell hit">{metrics.confusionMatrix[0]?.[0] ?? 0}</div>
-              <div className="cm-cell miss">{metrics.confusionMatrix[0]?.[1] ?? 0}</div>
-
-              <div className="cm-row-lbl">True B</div>
-              <div className="cm-cell miss">{metrics.confusionMatrix[1]?.[0] ?? 0}</div>
-              <div className="cm-cell hit">{metrics.confusionMatrix[1]?.[1] ?? 0}</div>
-            </div>
+            <ConfusionMatrix matrix={metrics.confusionMatrix} />
           ) : (
             <div className="cm-placeholder">Ready to evaluate</div>
           )}
@@ -109,41 +71,24 @@ export default function RightPanel({
 
         {/* 4. Bias-Variance Estimator */}
         <div className="clean-metric-card">
-          <div className="card-top-row">
-            <div className="title-with-info">
-              <span className="card-label">Bias-Variance</span>
-              <button
-                type="button"
-                className="info-bubble-btn"
-                onMouseEnter={() => setTooltip('bv')}
-                onMouseLeave={() => setTooltip(null)}
-                title="Bias-Variance Tradeoff details"
-              >
-                i
-              </button>
-            </div>
-            {tooltip === 'bv' && (
-              <div className="control-floating-tooltip">
-                Indicates model complexity tradeoff: High Bias (underfitting) vs High Variance (overfitting).
-              </div>
-            )}
-          </div>
+          <div className="card-top-row"><span className="card-label">Bias-Variance</span><span className="card-hint">complexity</span></div>
 
           <div className="bv-container">
             <div className="bv-line-labels">
               <span>Bias (Underfit)</span>
               <span>Variance (Overfit)</span>
             </div>
-            <div className="bv-track-bar">
+            <div className="bv-track-bar" title={biasVarianceLabel} aria-label={biasVarianceLabel}>
               <div
                 className="bv-pin"
                 style={{
-                  left: hasMetrics && metrics.varianceScore !== undefined
-                    ? `${Math.min(95, Math.max(5, metrics.varianceScore * 100))}%`
-                    : '50%'
+                  left: `${Math.min(95, Math.max(5, varianceScore * 100))}%`
                 }}
-              ></div>
+              >
+                <span className="bv-tooltip">{biasVarianceLabel}</span>
+              </div>
             </div>
+            <div className="bv-status">{biasVarianceLabel}</div>
           </div>
         </div>
       </div>

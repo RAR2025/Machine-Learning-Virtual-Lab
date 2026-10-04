@@ -160,21 +160,47 @@ export default function Canvas({
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, w, h);
 
-    // 2. Render Boundary Grid if available
-    if (boundaryData && boundaryData.grid && boundaryData.resolution) {
+    // 2. Render the prediction grid and trace class transitions as a contour.
+    if (boundaryData?.grid?.length && boundaryData.resolution) {
       const res = boundaryData.resolution;
       const cellW = w / res;
       const cellH = h / res;
-      const grid = boundaryData.grid; // 2D array of predictions [0 or 1] or probabilities
+      const grid = boundaryData.grid;
+      const isClassOne = (value) => Number(value) > 0.5;
 
       for (let r = 0; r < res; r++) {
         for (let c = 0; c < res; c++) {
-          const val = grid[r][c];
-          // Semi-transparent pastel fill for regions
-          ctx.fillStyle = val === 0 ? 'rgba(37, 99, 235, 0.16)' : 'rgba(249, 115, 22, 0.16)';
-          ctx.fillRect(c * cellW, r * cellH, cellW + 0.6, cellH + 0.6);
+          const value = grid[r]?.[c] ?? 0;
+          ctx.fillStyle = isClassOne(value)
+            ? 'rgba(234, 88, 12, 0.16)'
+            : 'rgba(37, 99, 235, 0.16)';
+          ctx.fillRect(c * cellW, r * cellH, cellW + 0.7, cellH + 0.7);
         }
       }
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(15, 23, 42, 0.72)';
+      ctx.lineWidth = 1.25;
+      ctx.lineJoin = 'round';
+
+      for (let r = 0; r < res; r++) {
+        for (let c = 0; c < res; c++) {
+          const current = isClassOne(grid[r]?.[c] ?? 0);
+
+          if (c < res - 1 && current !== isClassOne(grid[r]?.[c + 1] ?? 0)) {
+            const x = (c + 1) * cellW;
+            ctx.moveTo(x, r * cellH);
+            ctx.lineTo(x, (r + 1) * cellH);
+          }
+
+          if (r < res - 1 && current !== isClassOne(grid[r + 1]?.[c] ?? 0)) {
+            const y = (r + 1) * cellH;
+            ctx.moveTo(c * cellW, y);
+            ctx.lineTo((c + 1) * cellW, y);
+          }
+        }
+      }
+      ctx.stroke();
     }
 
     // 3. Render Subtle Coordinate Grid
