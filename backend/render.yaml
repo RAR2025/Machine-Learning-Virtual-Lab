@@ -21,10 +21,11 @@ services:
       - key: HOST
         value: 0.0.0.0
       # NOTE: Render injects $PORT itself; backend/core/config.py reads it.
-      # Replace the placeholder with your Vercel URL in the dashboard.
+      # Set these in the Render dashboard (they have no Blueprint value by
+      # design: `sync: false` keeps dashboard edits safe from overwrites).
+      # FRONTEND_URL:  https://your-app.vercel.app
+      # CORS_ORIGINS:  https://your-app.vercel.app,http://localhost:5173,http://127.0.0.1:5173
       - key: FRONTEND_URL
-        value: https://your-app.vercel.app
         sync: false
       - key: CORS_ORIGINS
-        value: https://your-app.vercel.app,http://localhost:5173,http://127.0.0.1:5173
         sync: false
