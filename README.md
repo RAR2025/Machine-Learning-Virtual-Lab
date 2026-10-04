@@ -45,6 +45,8 @@ An interactive, single-screen real-time Machine Learning Virtual Laboratory for 
 ### 1. Backend Setup
 
 ```bash
+cd backend
+
 # Install dependencies
 pip install -r requirements.txt
 
