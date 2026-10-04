@@ -1,0 +1,30 @@
+# Render Blueprint: ML Virtual Lab BACKEND only (frontend lives on Vercel).
+#
+# Deploy: Render Dashboard -> New -> Blueprint -> select this repo,
+#   set "Blueprint Path" to `backend/render.yaml` -> Deploy.
+# Then set the real Vercel URL in the dashboard (see FRONTEND_URL below);
+# `sync: false` keeps dashboard edits safe from Blueprint overwrites.
+
+services:
+  - type: web
+    name: ml-virtual-lab-backend
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      # NOTE: Render injects $PORT itself; backend/core/config.py reads it.
+      # Replace the placeholder with your Vercel URL in the dashboard.
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://your-app.vercel.app,http://localhost:5173,http://127.0.0.1:5173
+        sync: false

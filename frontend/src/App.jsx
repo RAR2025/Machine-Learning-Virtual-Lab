@@ -7,6 +7,7 @@ import RightPanel from './components/RightPanel/RightPanel';
 import TheoryStrip from './components/TheoryStrip/TheoryStrip';
 import { ALGORITHMS } from './data/algorithms';
 import { DATASET_PRESETS } from './data/presets';
+import { BOUNDARY_URL } from './api';
 
 export default function App() {
   // 1. Core State
@@ -87,7 +88,7 @@ export default function App() {
     setIsTraining(true);
 
     try {
-      const res = await fetch('/api/boundary', {
+      const res = await fetch(BOUNDARY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
