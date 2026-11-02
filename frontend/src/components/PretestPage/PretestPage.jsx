@@ -56,25 +56,14 @@ const QUESTIONS = [
 
 export default function PretestPage() {
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [checkedAnswers, setCheckedAnswers] = useState({});
+  const [isChecked, setIsChecked] = useState(false);
 
   const selectAnswer = (questionIndex, optionIndex) => {
     setSelectedAnswers((previous) => ({
       ...previous,
       [questionIndex]: optionIndex
     }));
-    setCheckedAnswers((previous) => {
-      const next = { ...previous };
-      delete next[questionIndex];
-      return next;
-    });
-  };
-
-  const checkAnswer = (questionIndex) => {
-    setCheckedAnswers((previous) => ({
-      ...previous,
-      [questionIndex]: true
-    }));
+    setIsChecked(false);
   };
 
   return (
@@ -88,7 +77,6 @@ export default function PretestPage() {
       <div className="pretest-list">
         {QUESTIONS.map((item, questionIndex) => {
           const selected = selectedAnswers[questionIndex];
-          const checked = checkedAnswers[questionIndex];
           const isCorrect = selected === item.answer;
 
           return (
@@ -101,8 +89,8 @@ export default function PretestPage() {
                 {item.options.map((option, optionIndex) => (
                   <label
                     className={`pretest-option ${selected === optionIndex ? 'selected' : ''} ${
-                      checked && optionIndex === item.answer ? 'correct-option' : ''
-                    } ${checked && selected === optionIndex && !isCorrect ? 'wrong-option' : ''}`}
+                      isChecked && optionIndex === item.answer ? 'correct-option' : ''
+                    } ${isChecked && selected === optionIndex && !isCorrect ? 'wrong-option' : ''}`}
                     key={option}
                   >
                     <input
@@ -115,27 +103,27 @@ export default function PretestPage() {
                   </label>
                 ))}
               </div>
-              <div className="pretest-action-row">
-                <button
-                  className="btn btn-primary pretest-check-button"
-                  type="button"
-                  disabled={selected === undefined}
-                  onClick={() => checkAnswer(questionIndex)}
-                >
-                  Check Answer
-                </button>
-                {checked && (
+              {isChecked && (
+                <div className="pretest-action-row">
                   <p className={`pretest-feedback ${isCorrect ? 'correct' : 'wrong'}`}>
                     {isCorrect
                       ? 'Correct answer!'
                       : `Incorrect. The correct answer is ${String.fromCharCode(97 + item.answer)}) ${item.options[item.answer]}`}
                   </p>
-                )}
-              </div>
+                </div>
+              )}
             </section>
           );
         })}
       </div>
+      <button
+        className="btn btn-primary pretest-submit-button"
+        type="button"
+        disabled={Object.keys(selectedAnswers).length !== QUESTIONS.length}
+        onClick={() => setIsChecked(true)}
+      >
+        Check Answers
+      </button>
     </main>
   );
 }

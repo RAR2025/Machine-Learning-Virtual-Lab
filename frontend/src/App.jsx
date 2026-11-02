@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './styles/index.css';
 import AimPage from './components/AimPage/AimPage';
+import ConclusionPage from './components/ConclusionPage/ConclusionPage';
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import PretestPage from './components/PretestPage/PretestPage';
+import PosttestPage from './components/PosttestPage/PosttestPage';
+import ProcedurePage from './components/ProcedurePage/ProcedurePage';
 import TheoryPage from './components/TheoryPage/TheoryPage';
 import TopBar from './components/TopBar/TopBar';
 import LeftPanel from './components/LeftPanel/LeftPanel';
@@ -14,7 +17,7 @@ import { BOUNDARY_URL } from './api';
 
 export default function App() {
   // 1. Core State
-  const [activeTab, setActiveTab] = useState('simulation');
+  const [activeTab, setActiveTab] = useState('aim');
   const [activeAlgo, setActiveAlgo] = useState('knn');
   const [hyperparams, setHyperparams] = useState(() => ({
     ...ALGORITHMS.knn.defaultParams
@@ -198,7 +201,10 @@ export default function App() {
       <NavigationBar activeTab={activeTab} onTabChange={setActiveTab} />
 
       {activeTab === 'aim' && <AimPage />}
+      {activeTab === 'conclusion' && <ConclusionPage />}
       {activeTab === 'pretest' && <PretestPage />}
+      {activeTab === 'procedure' && <ProcedurePage />}
+      {activeTab === 'posttest' && <PosttestPage />}
       {activeTab === 'theory' && <TheoryPage />}
 
       {activeTab === 'simulation' && (

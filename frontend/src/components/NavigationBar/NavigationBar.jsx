@@ -1,7 +1,7 @@
 import React from 'react';
 import './NavigationBar.css';
 
-const NAV_ITEMS = ['Aim', 'Theory', 'Pretest', 'Simulation', 'Posttest', 'Conclusion'];
+const NAV_ITEMS = ['Aim', 'Theory', 'Pretest', 'Procedure', 'Simulation', 'Posttest', 'Conclusion'];
 
 export default function NavigationBar({ activeTab, onTabChange }) {
   return (
