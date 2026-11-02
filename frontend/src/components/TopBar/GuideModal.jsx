@@ -148,16 +148,6 @@ export default function GuideModal({ isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* Step 5 */}
-              <div className="step-card">
-                <div className="step-badge">Step 05</div>
-                <div className="step-content">
-                  <div className="step-title">Examine the Bias-Variance Tradeoff & Theory Strip</div>
-                  <div className="step-text">
-                    Look at the bottom <b>Theory & Observations</b> bar to see dynamic mathematical principles and real-time guidance explaining <i>why</i> the boundary looks the way it does.
-                  </div>
-                </div>
-              </div>
             </div>
           )}
 

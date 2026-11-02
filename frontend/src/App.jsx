@@ -4,7 +4,6 @@ import TopBar from './components/TopBar/TopBar';
 import LeftPanel from './components/LeftPanel/LeftPanel';
 import Canvas from './components/Canvas/Canvas';
 import RightPanel from './components/RightPanel/RightPanel';
-import TheoryStrip from './components/TheoryStrip/TheoryStrip';
 import { ALGORITHMS } from './data/algorithms';
 import { DATASET_PRESETS } from './data/presets';
 import { BOUNDARY_URL } from './api';
@@ -25,7 +24,6 @@ export default function App() {
   // 2. Collapsible Panels State (for clean, distraction-free view)
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightCollapsed, setRightCollapsed] = useState(false);
-  const [theoryCollapsed, setTheoryCollapsed] = useState(false);
 
   // 3. Training & Inference State
   const [isTraining, setIsTraining] = useState(false);
@@ -205,8 +203,6 @@ export default function App() {
         setLeftCollapsed={setLeftCollapsed}
         rightCollapsed={rightCollapsed}
         setRightCollapsed={setRightCollapsed}
-        theoryCollapsed={theoryCollapsed}
-        setTheoryCollapsed={setTheoryCollapsed}
       />
 
       {/* 2. Workspace: Collapsible Sidebars + Expansive Canvas */}
@@ -244,13 +240,6 @@ export default function App() {
         />
       </main>
 
-      {/* 3. Bottom Theory Strip (Minimizable) */}
-      <TheoryStrip
-        activeAlgo={activeAlgo}
-        hyperparams={hyperparams}
-        collapsed={theoryCollapsed}
-        onToggleCollapse={() => setTheoryCollapsed(!theoryCollapsed)}
-      />
     </div>
   );
 }

@@ -14,9 +14,7 @@ export default function TopBar({
   leftCollapsed,
   setLeftCollapsed,
   rightCollapsed,
-  setRightCollapsed,
-  theoryCollapsed,
-  setTheoryCollapsed
+  setRightCollapsed
 }) {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const currentAlgo = ALGORITHMS[activeAlgo];
