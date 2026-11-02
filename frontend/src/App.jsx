@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './styles/index.css';
+import AimPage from './components/AimPage/AimPage';
+import NavigationBar from './components/NavigationBar/NavigationBar';
+import TheoryPage from './components/TheoryPage/TheoryPage';
 import TopBar from './components/TopBar/TopBar';
 import LeftPanel from './components/LeftPanel/LeftPanel';
 import Canvas from './components/Canvas/Canvas';
@@ -10,6 +13,7 @@ import { BOUNDARY_URL } from './api';
 
 export default function App() {
   // 1. Core State
+  const [activeTab, setActiveTab] = useState('simulation');
   const [activeAlgo, setActiveAlgo] = useState('knn');
   const [hyperparams, setHyperparams] = useState(() => ({
     ...ALGORITHMS.knn.defaultParams
@@ -190,55 +194,62 @@ export default function App() {
 
   return (
     <div className="vlab-shell">
-      {/* 1. Header Navigation & Brand */}
-      <TopBar
-        activeAlgo={activeAlgo}
-        points={points}
-        autoTrain={autoTrain}
-        setAutoTrain={setAutoTrain}
-        onResetPoints={handleResetPoints}
-        isTraining={isTraining}
-        onTrain={trainModel}
-        leftCollapsed={leftCollapsed}
-        setLeftCollapsed={setLeftCollapsed}
-        rightCollapsed={rightCollapsed}
-        setRightCollapsed={setRightCollapsed}
-      />
+      <NavigationBar activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {/* 2. Workspace: Collapsible Sidebars + Expansive Canvas */}
-      <main className="vlab-workspace">
-        <LeftPanel
-          activeAlgo={activeAlgo}
-          setActiveAlgo={handleSelectAlgo}
-          hyperparams={hyperparams}
-          onChangeParam={handleParamChange}
-          onTrain={trainModel}
-          isTraining={isTraining}
-          pointsCount={points.length}
-          collapsed={leftCollapsed}
-          onToggleCollapse={() => setLeftCollapsed(!leftCollapsed)}
-        />
+      {activeTab === 'aim' && <AimPage />}
+      {activeTab === 'theory' && <TheoryPage />}
 
-        <Canvas
-          points={points}
-          setPoints={setPoints}
-          activeClass={activeClass}
-          setActiveClass={setActiveClass}
-          isEraser={isEraser}
-          setIsEraser={setIsEraser}
-          boundaryData={boundaryData}
-          onResetPoints={handleResetPoints}
-          onLoadPreset={handleLoadPreset}
-        />
+      {activeTab === 'simulation' && (
+        <>
+          <TopBar
+            activeAlgo={activeAlgo}
+            points={points}
+            autoTrain={autoTrain}
+            setAutoTrain={setAutoTrain}
+            onResetPoints={handleResetPoints}
+            isTraining={isTraining}
+            onTrain={trainModel}
+            leftCollapsed={leftCollapsed}
+            setLeftCollapsed={setLeftCollapsed}
+            rightCollapsed={rightCollapsed}
+            setRightCollapsed={setRightCollapsed}
+          />
 
-        <RightPanel
-          metrics={metrics}
-          isTraining={isTraining}
-          activeAlgo={activeAlgo}
-          collapsed={rightCollapsed}
-          onToggleCollapse={() => setRightCollapsed(!rightCollapsed)}
-        />
-      </main>
+          <main className="vlab-workspace">
+            <LeftPanel
+              activeAlgo={activeAlgo}
+              setActiveAlgo={handleSelectAlgo}
+              hyperparams={hyperparams}
+              onChangeParam={handleParamChange}
+              onTrain={trainModel}
+              isTraining={isTraining}
+              pointsCount={points.length}
+              collapsed={leftCollapsed}
+              onToggleCollapse={() => setLeftCollapsed(!leftCollapsed)}
+            />
+
+            <Canvas
+              points={points}
+              setPoints={setPoints}
+              activeClass={activeClass}
+              setActiveClass={setActiveClass}
+              isEraser={isEraser}
+              setIsEraser={setIsEraser}
+              boundaryData={boundaryData}
+              onResetPoints={handleResetPoints}
+              onLoadPreset={handleLoadPreset}
+            />
+
+            <RightPanel
+              metrics={metrics}
+              isTraining={isTraining}
+              activeAlgo={activeAlgo}
+              collapsed={rightCollapsed}
+              onToggleCollapse={() => setRightCollapsed(!rightCollapsed)}
+            />
+          </main>
+        </>
+      )}
 
     </div>
   );

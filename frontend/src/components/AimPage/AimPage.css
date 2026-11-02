@@ -1,0 +1,39 @@
+.aim-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: var(--bg-app);
+}
+
+.aim-card {
+  width: min(760px, 100%);
+  padding: clamp(28px, 6vw, 64px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.aim-eyebrow {
+  color: var(--algo-knn);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.aim-card h1 {
+  margin: 10px 0 18px;
+  color: var(--text-primary);
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -0.04em;
+}
+
+.aim-card p {
+  color: var(--text-secondary);
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.7;
+}
