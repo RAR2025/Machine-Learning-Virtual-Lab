@@ -51,7 +51,7 @@ cd backend
 pip install -r requirements.txt
 
 # Run FastAPI server
-python -m uvicorn backend.main:app --port 8000 --reload
+python -m uvicorn main:app --port 8000 --reload
 ```
 
 Interactive API docs: `http://localhost:8000/docs`
