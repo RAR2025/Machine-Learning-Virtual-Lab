@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './styles/index.css';
 import AimPage from './components/AimPage/AimPage';
 import NavigationBar from './components/NavigationBar/NavigationBar';
+import PretestPage from './components/PretestPage/PretestPage';
 import TheoryPage from './components/TheoryPage/TheoryPage';
 import TopBar from './components/TopBar/TopBar';
 import LeftPanel from './components/LeftPanel/LeftPanel';
@@ -197,6 +198,7 @@ export default function App() {
       <NavigationBar activeTab={activeTab} onTabChange={setActiveTab} />
 
       {activeTab === 'aim' && <AimPage />}
+      {activeTab === 'pretest' && <PretestPage />}
       {activeTab === 'theory' && <TheoryPage />}
 
       {activeTab === 'simulation' && (
